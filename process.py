@@ -1,10 +1,4 @@
 from qgis.core import *
 
+proj = QgsProject.instance()
 
-
-qgs = QgsApplication([], False)
-
-qgs.initQgis()
-
-
-qgs.exitQgis()
