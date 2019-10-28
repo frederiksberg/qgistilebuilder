@@ -4,4 +4,4 @@ WORKDIR /opt/
 
 COPY ./process.py /opt/process.py
 
-CMD "sh"
+CMD tail -d /dev/null
