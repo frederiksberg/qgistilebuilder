@@ -1,4 +1,11 @@
+import os
 from qgis.core import *
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
 
-proj = QgsProject.instance()
+QgsApplication.setPrefixPath("/usr", False)
 
+qgs = QgsApplication([], False)
+
+qgs.initQgs()
+
+qgs.exitQgs()
