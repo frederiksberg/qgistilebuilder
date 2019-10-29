@@ -6,6 +6,6 @@ QgsApplication.setPrefixPath("/usr", False)
 
 qgs = QgsApplication([], False)
 
-qgs.initQgs()
+qgs.initQgis()
 
-qgs.exitQgs()
+qgs.exitQgis()
