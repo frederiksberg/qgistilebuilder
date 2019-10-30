@@ -1,8 +1,42 @@
-FROM qgis/qgis:latest
+FROM qgis/qgis3-build-deps:latest
 
-WORKDIR /opt/
+WORKDIR /usr/src
 
-COPY ./process.py /opt/process.py
+RUN git clone https://github.com/qgis/qgis
 
-# CMD tail -f /dev/null
-CMD python3 process.py
+WORKDIR /usr/src/qgis/build
+
+RUN git checkout release-3_8
+
+ENV CC=/usr/lib/ccache/clang
+ENV CXX=/usr/lib/ccache/clang++
+ENV QT_SELECT=5
+ENV LANG=C.UTF-8
+
+RUN cmake \
+ -GNinja \
+ -DCMAKE_INSTALL_PREFIX=/usr \
+ -DBINDINGS_GLOBAL_INSTALL=ON \
+ -DWITH_STAGED_PLUGINS=ON \
+ -DWITH_GRASS=ON \
+ -DSUPPRESS_QT_WARNINGS=ON \
+ -DENABLE_TESTS=OFF \
+ -DWITH_QSPATIALITE=ON \
+ -DWITH_QWTPOLAR=OFF \
+ -DWITH_APIDOC=OFF \
+ -DWITH_ASTYLE=OFF \
+ -DWITH_DESKTOP=ON \
+ -DWITH_BINDINGS=ON \
+ -DDISABLE_DEPRECATED=ON \
+ .. \
+ && ninja install \
+ && rm -rf /usr/src/QGIS  
+
+WORKDIR /opt/src
+
+RUN mkdir -p /opt/tiles
+
+RUN touch /var/log/tilebuilder.log && \
+    ln -sf /dev/stdout /var/log/tilebuilder.log
+
+CMD python3 run.py --project /opt/projekter/almeneboliger.qgz --minzoom 12 --maxzoom 15 --extend "718098.2892464173,725122.9767535825,6173322.497463259,6179209.47663593 [EPSG:25832]"

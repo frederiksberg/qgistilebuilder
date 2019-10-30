@@ -3,3 +3,8 @@ services:
   qgis:
     build:
       context: .
+    volumes:
+      - ./src:/opt/src:rw
+      - ./projekter:/opt/projekter:rw
+    extra_hosts:
+      - "srwebgisadm01:172.16.2.232"
