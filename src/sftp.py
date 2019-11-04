@@ -13,12 +13,16 @@ def upload(file):
         raise ValueError("Config parsing error")
     
     try:
+        cnopts = pysftp.CnOpts()
+        cnopts.hostkeys = None
+
         with pysftp.Connection(
             host=conf["host"],
             username=conf["user"],
             password=conf["password"],
             private_key=conf["private_key"],
-            private_key_pass=conf["private_key_pass"]
+            private_key_pass=conf["private_key_pass"],
+            cnopts=cnopts
         ) as sftp:
             with sftp.cd("tiles"):
                 sftp.put(file)
