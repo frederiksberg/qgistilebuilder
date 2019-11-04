@@ -19,7 +19,7 @@ def buildmbtiles(project, minzoom, maxzoom, extend, outname):
         proj.read(project)
     except:
         logging.error(f"There was an error loading {project}")
-        exit(1)
+        raise ValueError("Error loading QGIS project")
 
     # Initialize processing
     sys.path.append("/usr/share/qgis/python/plugins")

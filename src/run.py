@@ -45,6 +45,8 @@ except:
 
 logging.info(f"MBTiles file saved to {filepath}")
 
-# TODO: SFTP
-
-sftp.test()
+try:
+    sftp.upload(filepath)
+except:
+    printerror("Error during sftp upload")
+    exit(1)
