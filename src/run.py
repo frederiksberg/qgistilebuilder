@@ -6,7 +6,7 @@ import sftp
 
 def printerror(str):
     with open("/var/log/tilebuilder.err", "w") as fp:
-        fp.write(str)
+        fp.write(str + "\n")
 
 # Set up arg parsing
 parser = argparse.ArgumentParser(description="Builds MBTiles and uploads them to tilehut")

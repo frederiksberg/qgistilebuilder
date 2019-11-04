@@ -29,6 +29,7 @@ def upload(file):
         ) as sftp:
             with sftp.cd("tiles"):
                 sftp.put(file)
-    except:
+    except Exception as e:
         logging.error("An error occured while uploading file via sftp")
+        logging.error(e.msg)
         raise ValueError("SFTP Error")
