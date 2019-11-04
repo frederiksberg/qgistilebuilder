@@ -6,6 +6,7 @@ services:
     volumes:
       - ./src:/opt/src
       - ./projekter:/opt/projekter:rw
+      - ./keys:/opt/keys:rw
       - ./conf.ini:/opt/conf.ini
     extra_hosts:
       - "srwebgisadm01:172.16.2.232"
