@@ -1,7 +1,8 @@
 import pysftp
 import configparser
 import logging
-
+import paramiko
+from base64 import decodebytes
 
 def upload(file):
     try:
@@ -13,8 +14,11 @@ def upload(file):
         raise ValueError("Config parsing error")
     
     try:
+        keydata = bytes(conf["known_host"])
+        key = paramiko.RSAKey(data=decodebytes(keydata))
+
         cnopts = pysftp.CnOpts()
-        cnopts.hostkeys = None
+        cnopts.hostkeys.add("th.frb-data.dk", "ssh-rsa", key)
 
         with pysftp.Connection(
             host=conf["host"],
