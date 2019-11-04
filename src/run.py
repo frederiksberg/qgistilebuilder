@@ -5,7 +5,7 @@ from process import buildmbtiles
 import sftp
 
 def printerror(str):
-    with open("/var/log/tilebuilder.err", "a") as fp:
+    with open("/var/log/tilebuilder.err", "w") as fp:
         fp.write(str)
 
 # Set up arg parsing
