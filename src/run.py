@@ -2,6 +2,7 @@ import argparse
 import uuid
 import logging
 from process import buildmbtiles
+import sftp
 
 def printerror(str):
     with open("/var/log/tilebuilder.err", "a") as fp:
@@ -45,3 +46,5 @@ except:
 logging.info(f"MBTiles file saved to {filepath}")
 
 # TODO: SFTP
+
+sftp.test()
