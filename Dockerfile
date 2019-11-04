@@ -36,11 +36,23 @@ WORKDIR /opt/src
 
 RUN pip3 install pysftp
 
-RUN mkdir -p /opt/tiles
+RUN apt-get update && apt-get -y install cron
 
-RUN touch /var/log/tilebuilder.info && \
-    touch /var/log/tilebuilder.err && \
-    ln -sf /dev/stdout /var/log/tilebuilder.info && \
-    ln -sf /dev/stderr /var/log/tilebuilder.err
+COPY ./cron /etc/cron.d/cronfile
 
-CMD python3 run.py --project /opt/projekter/almeneboliger.qgz --minzoom 12 --maxzoom 15 --extend "718098.2892464173,725122.9767535825,6173322.497463259,6179209.47663593 [EPSG:25832]"
+RUN chmod 0644 /etc/cron.d/cronfile
+
+RUN crontab /etc/cron.d/cronfile
+
+RUN mkdir -p /opt/tiles && mkdir -p /root/.ssh
+
+# I know this isn't secure, but this is not really sensitive to MITM
+RUN ssh-keyscan -p 2222 th.frb-data.dk > /root/.ssh/known_hosts && \
+    chmod 644 /root/.ssh/known_hosts && \
+    chmod 700 /root/.ssh
+
+COPY ./entrypoint.sh /opt/entrypoint.sh
+
+# RUN chmod +x /opt/entrypoint.sh
+
+ENTRYPOINT [ "/opt/entrypoint.sh" ]

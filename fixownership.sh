@@ -1,0 +1,1 @@
+chown gis /home/gis/tiles

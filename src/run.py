@@ -1,12 +1,9 @@
 import argparse
 import uuid
 import logging
+import os
 from process import buildmbtiles
 import sftp
-
-def printerror(str):
-    with open("/var/log/tilebuilder.err", "w") as fp:
-        fp.write(str + "\n")
 
 # Set up arg parsing
 parser = argparse.ArgumentParser(description="Builds MBTiles and uploads them to tilehut")
@@ -19,14 +16,15 @@ try:
     ns = parser.parse_args()
 except:
     logging.error("An error occurred while parsing arguments")
-    printerror("A fatal error occurred while parsing arguments")
     exit(1)
+
+name = os.path.splitext(os.path.basename(ns.project))[0]
 
 logging.basicConfig(
     level=logging.INFO,
-    filename="/var/log/tilebuilder.info",
-    filemode="w",
-    format="[%(levelname)s] => %(message)s"
+    filename="/var/log/tilebuilder.log",
+    filemode="a",
+    format=f"[%(levelname)s]:[{name}]:[%(asctime)s] => %(message)s"
     )
 
 logging.info(f"Processing {ns.project}")
@@ -37,17 +35,20 @@ try:
         ns.minzoom,
         ns.maxzoom,
         ns.extend,
-        f"/opt/tiles/{str(uuid.uuid4())}.mbtiles"
+        f"/opt/tiles/{name}.mbtiles"
     )
 except:
-    printerror("A fatal error occured while building tiles")
     exit(1)
 
 logging.info(f"MBTiles file saved to {filepath}")
 
+logging.info("Starting upload of mbtiles file")
 try:
     sftp.upload(filepath)
 except Exception as e:
-    printerror("Error during sftp upload")
     logging.error(str(e))
+    os.remove(filepath)
     exit(1)
+
+os.remove(filepath)
+logging.info("Deleting mbtiles file")
