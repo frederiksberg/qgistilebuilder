@@ -4,7 +4,8 @@ services:
     build:
       context: .
     volumes:
-      - ./src:/opt/src:rw
+      - ./src:/opt/src
       - ./projekter:/opt/projekter:rw
+      - ./conf.ini:/opt/conf.ini
     extra_hosts:
       - "srwebgisadm01:172.16.2.232"

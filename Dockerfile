@@ -34,9 +34,13 @@ RUN cmake \
 
 WORKDIR /opt/src
 
+RUN pip3 install pysftp
+
 RUN mkdir -p /opt/tiles
 
-RUN touch /var/log/tilebuilder.log && \
-    ln -sf /dev/stdout /var/log/tilebuilder.log
+RUN touch /var/log/tilebuilder.info && \
+    touch /var/log/tilebuilder.err && \
+    ln -sf /dev/stdout /var/log/tilebuilder.info && \
+    ln -sf /dev/stderr /var/log/tilebuilder.err
 
 CMD python3 run.py --project /opt/projekter/almeneboliger.qgz --minzoom 12 --maxzoom 15 --extend "718098.2892464173,725122.9767535825,6173322.497463259,6179209.47663593 [EPSG:25832]"
