@@ -31,5 +31,5 @@ def upload(file):
                 sftp.put(file)
     except Exception as e:
         logging.error("An error occured while uploading file via sftp")
-        logging.error(e.msg)
+        logging.error(str(e))
         raise ValueError("SFTP Error")
