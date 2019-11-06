@@ -22,4 +22,4 @@ logs:
 	sudo docker-compose logs -f´
 
 ls-cron:
-	sudo docker exec tiler "crontab -l"
+	sudo docker exec tiler crontab -l
