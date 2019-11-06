@@ -13,3 +13,10 @@ clean: kill
 
 kill:
 	sudo docker-compose down
+
+re-ftp:
+	sudo docker-compose rm -f -s ftp
+	sudo docker-compose up -d ftp
+
+logs:
+	sudo docker-compose logs -f
