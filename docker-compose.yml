@@ -23,7 +23,7 @@ services:
       - ./fixownership.sh:/etc/sftp.d/fixownership.sh
     ports:
       - "2222:22"
-    command: gis::::tiles
+    command: gis::::projekter
     depends_on: [qgis]
     restart: unless-stopped
 
