@@ -19,7 +19,7 @@ re-ftp:
 	sudo docker-compose up -d ftp
 
 logs:
-	sudo docker-compose logs -f´
+	sudo docker-compose logs -f
 
 ls-cron:
 	sudo docker exec tiler crontab -l
