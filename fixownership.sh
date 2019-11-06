@@ -1,1 +1,1 @@
-chown gis /home/gis/tiles
+chown gis /home/gis/projekter
