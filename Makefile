@@ -1,9 +1,9 @@
 
-run: | build clean
-	sudo docker-compose up
-
 deploy: | build clean
 	sudo docker-compose up -d
+
+run: | build clean
+	sudo docker-compose up
 
 build:
 	sudo docker-compose build
